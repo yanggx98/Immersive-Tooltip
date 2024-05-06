@@ -3,6 +3,6 @@
   "immersive-tooltip.rarity.uncommon": "高级",
   "immersive-tooltip.rarity.rare": "稀有",
   "immersive-tooltip.rarity.epic": "史诗",
-  "immersive-tooltip.tooltip.hunger": "回复 %d 饥饿",
+  "immersive-tooltip.tooltip.hunger": "恢复 %d 饥饿",
   "immersive-tooltip.tooltip.saturation": "+ %d%% 饱食"
 }
