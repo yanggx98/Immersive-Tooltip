@@ -3,7 +3,7 @@
 - Make tooltip look better
 - Armor model viewer
 - Show item rarity
-- Tooltip paging display
-- Food item effect display
+- Tooltip paging
+- Display food item effects
 ---
 ![thumb](thumb.png)
