@@ -72,6 +72,9 @@ public class ImmersiveTooltip implements ClientModInitializer {
 						);
 					}
 				}
+				if (stack.isDamageable()){
+					lines.add(Text.translatable("item.durability", new Object[]{stack.getMaxDamage() - stack.getDamage(), stack.getMaxDamage()}));
+				}
 			}
 		});
 
