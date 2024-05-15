@@ -14,6 +14,17 @@ repositories {
 	flatDir {
 		dirs '/../Kaleido/build/devLibs'
 	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
 }
 
 
@@ -25,7 +36,8 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	implementation name: 'kaleido-1.0.0-dev'
+	modImplementation "maven.modrinth:kaleido:17cb0vJt"
+
 }
 
 processResources {
