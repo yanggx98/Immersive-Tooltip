@@ -11,6 +11,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -67,7 +68,7 @@ public class ImmersiveTooltip implements ClientModInitializer {
 						int color = statusEffect.getFirst().getEffectType().getColor();
 						lines.add(Text.empty().append("◈ ").append(Text.translatable(
 										statusEffect.getFirst().getTranslationKey()))
-								.append("(").append(StatusEffectUtil.getDurationText(statusEffect.getFirst(),1.0f)).append(")")
+								.append("(").append(StatusEffectUtil.getDurationText(statusEffect.getFirst(),1.0f,MinecraftClient.getInstance().world.getTickManager().getTickRate())).append(")")
 								.setStyle(Style.EMPTY.withColor(color))
 						);
 					}
