@@ -12,7 +12,7 @@ base {
 
 repositories {
 	flatDir {
-		dirs '/../Kaleido/build/devLibs'
+		dirs '../Kaleido/build/devLibs'
 	}
 	exclusiveContent {
 		forRepository {
@@ -37,7 +37,7 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "maven.modrinth:kaleido:17cb0vJt"
-
+//	implementation name: 'kaleido-1.0.0-dev'
 }
 
 processResources {
