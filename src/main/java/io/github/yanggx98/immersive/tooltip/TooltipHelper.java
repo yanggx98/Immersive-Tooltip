@@ -1,7 +1,7 @@
 package io.github.yanggx98.immersive.tooltip;
 
 import io.github.yanggx98.immersive.tooltip.api.ItemRarityNameProvider;
-import net.minecraft.item.FoodComponent;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -50,8 +50,8 @@ public class TooltipHelper {
 
     public static Text createFoodComponentMark(FoodComponent foodComponent) {
         return Text.literal(FOOD_COMPONENT_MARK_KEY)
-                .append(Text.translatable(identifier("tooltip.hunger").toTranslationKey(),foodComponent.getHunger()))
-                .append(Text.translatable(identifier("tooltip.saturation").toTranslationKey(),foodComponent.getSaturationModifier()));
+                .append(Text.translatable(identifier("tooltip.hunger").toTranslationKey(),foodComponent.nutrition()))
+                .append(Text.translatable(identifier("tooltip.saturation").toTranslationKey(),foodComponent.saturation()));
     }
 
 

@@ -13,10 +13,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
-import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
@@ -51,24 +52,25 @@ public class ImmersiveTooltip implements ClientModInitializer {
 	public void onInitializeClient() {
 		ItemTooltipCallback.EVENT.register(new ItemTooltipCallback() {
 			@Override
-			public void getTooltip(ItemStack stack, TooltipContext context, List<Text> lines) {
+			public void getTooltip(ItemStack stack, Item.TooltipContext tooltipContext, TooltipType tooltipType, List<Text> lines) {
 				if (lines.get(0) instanceof MutableText mutableText) {
 					mutableText.append(TooltipHelper.createItemMark(stack)).append(createRarityMark(stack));
 				}
-				FoodComponent foodComponent = stack.getItem().getFoodComponent();
+				FoodComponent foodComponent = stack.getItem().getComponents().get(DataComponentTypes.FOOD);
 				if (foodComponent != null) {
 					lines.add(
-							Text.translatable(identifier("tooltip.hunger").toTranslationKey(),foodComponent.getHunger())
+							Text.translatable(identifier("tooltip.hunger").toTranslationKey(),foodComponent.nutrition())
 									.setStyle(Style.EMPTY.withFormatting(Formatting.AQUA))
 					);
-					lines.add(Text.translatable(identifier("tooltip.saturation").toTranslationKey(),(int) (foodComponent.getSaturationModifier()*100))
+					lines.add(Text.translatable(identifier("tooltip.saturation").toTranslationKey(),(int) (foodComponent.saturation()*100))
 							.setStyle(Style.EMPTY.withFormatting(Formatting.AQUA))
 					);
-					for (Pair<StatusEffectInstance, Float> statusEffect : foodComponent.getStatusEffects()) {
-						int color = statusEffect.getFirst().getEffectType().getColor();
+					for (FoodComponent.StatusEffectEntry entry: foodComponent.effects()) {
+						StatusEffectInstance statusEffect = entry.effect();
+						int color = statusEffect.getEffectType().value().getColor();
 						lines.add(Text.empty().append("◈ ").append(Text.translatable(
-										statusEffect.getFirst().getTranslationKey()))
-								.append("(").append(StatusEffectUtil.getDurationText(statusEffect.getFirst(),1.0f,MinecraftClient.getInstance().world.getTickManager().getTickRate())).append(")")
+										statusEffect.getTranslationKey()))
+								.append("(").append(StatusEffectUtil.getDurationText(statusEffect,1.0f,MinecraftClient.getInstance().world.getTickManager().getTickRate())).append(")")
 								.setStyle(Style.EMPTY.withColor(color))
 						);
 					}
@@ -104,7 +106,7 @@ public class ImmersiveTooltip implements ClientModInitializer {
 					for (Text childText : mutableText.getSiblings()) {
 						Item item = asItem(childText);
 						if (item != null) {
-							Integer colorValue = item.getDefaultStack().getRarity().formatting.getColorValue();
+							Integer colorValue = item.getDefaultStack().getRarity().getFormatting().getColorValue();
 							int color = colorValue != null ? colorValue : -1;
 							return new ModelTooltipComponent(item, 0xff000000 | color);
 						}
