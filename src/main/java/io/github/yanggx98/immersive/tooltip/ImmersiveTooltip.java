@@ -70,7 +70,7 @@ public class ImmersiveTooltip implements ClientModInitializer {
 						int color = statusEffect.getEffectType().value().getColor();
 						lines.add(Text.empty().append("◈ ").append(Text.translatable(
 										statusEffect.getTranslationKey()))
-								.append("(").append(StatusEffectUtil.getDurationText(statusEffect,1.0f,MinecraftClient.getInstance().world.getTickManager().getTickRate())).append(")")
+								.append("(").append(StatusEffectUtil.getDurationText(statusEffect,1.0f,tooltipContext.getUpdateTickRate())).append(")")
 								.setStyle(Style.EMPTY.withColor(color))
 						);
 					}
