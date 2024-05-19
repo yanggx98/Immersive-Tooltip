@@ -16,6 +16,8 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 public class ModelTooltipComponent extends ColorTooltipBorderComponent {
+    private static final float ROTATE_COEFFICIENT = 0.4f;
+    private static float rotateValue = 0;
     private final Item item;
     private static final int ENTITY_SIZE = 30;
     private static final int SPACING = 12;
@@ -32,11 +34,15 @@ public class ModelTooltipComponent extends ColorTooltipBorderComponent {
             return;
         }
         if (item instanceof ArmorItem armorItem) {
+            rotateValue+=ROTATE_COEFFICIENT;
+            if(rotateValue % 360 == 0){
+                rotateValue = 0;
+            }
             ArmorStandEntity entity = new ArmorStandEntity(EntityType.ARMOR_STAND, MinecraftClient.getInstance().world);
             entity.equipStack(armorItem.getSlotType(), item.getDefaultStack());
             int offset = ENTITY_SIZE + SPACING - 10;
             super.drawBorder(context, x - offset - 25, y, ENTITY_SIZE + 10, ENTITY_SIZE + 30 + 10, z, page);
-            drawEntity(context, x - ENTITY_SIZE / 2 - SPACING - 10, y + ENTITY_SIZE + 30 + 5, ENTITY_SIZE, -90, -45, entity);
+            drawEntity(context, x - ENTITY_SIZE / 2 - SPACING - 10, y + ENTITY_SIZE + 30 + 5, ENTITY_SIZE, rotateValue, -45, entity);
         }
     }
 
@@ -47,7 +53,7 @@ public class ModelTooltipComponent extends ColorTooltipBorderComponent {
         Quaternionf quaternionf = (new Quaternionf()).rotateZ(3.1415927F);
         Quaternionf quaternionf2 = (new Quaternionf()).rotateX(g * 20.0F * 0.017453292F);
         quaternionf.mul(quaternionf2);
-        entity.bodyYaw = 180.0F + f * 20.0F;
+        entity.bodyYaw = mouseX;
         entity.setYaw(180.0F + f * 40.0F);
         entity.setPitch(-g * 20.0F);
         entity.headYaw = entity.getYaw();
