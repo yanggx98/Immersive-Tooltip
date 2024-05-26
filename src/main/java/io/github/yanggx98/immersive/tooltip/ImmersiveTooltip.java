@@ -39,11 +39,6 @@ public class ImmersiveTooltip implements ClientModInitializer {
             }
             list.remove(0);
             list.add(0, new HeaderTooltipComponent(itemStack));
-            for (int i = 0;i<1;i++)
-            {
-                Text text = Text.empty().append("xxxxxxxxxxxkashudiqwyeoquwoeiuqweoqweuixxxxxxxxxxxkashudiqwyeoquwoeiuqweoqweuixxxxxxxxxxxkashudiqwyeoquwoeiuqweoqweuixxxxxxxxxxxkashudiqwyeoquwoeiuqweoqweuixxxxxxxxxxxkashudiqwyeoquwoeiuqweoqweuixxxxxxxxxxxkashudiqwyeoquwoeiuqweoqweuixxxxxxxxxxxkashudiqwyeoquwoeiuqweoqweuixxxxxxxxxxxkashudiqwyeoquwoeiuqweoqweui");
-                list.add(TooltipComponent.of(text.asOrderedText()));
-            }
         });
         TooltipDrawerProvider.setTooltipDrawerProvider(new ImmersiveTooltipDrawer());
     }
