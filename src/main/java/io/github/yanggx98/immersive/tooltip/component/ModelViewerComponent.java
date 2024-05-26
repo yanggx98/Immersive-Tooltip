@@ -1,7 +1,7 @@
 package io.github.yanggx98.immersive.tooltip.component;
 
-import io.github.yanggx98.kaleido.tooltip.components.ColorTooltipBorderComponent;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -10,42 +10,43 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
-public class ModelTooltipComponent extends ColorTooltipBorderComponent {
+
+public class ModelViewerComponent extends ColorBorderComponent {
     private static final float ROTATE_COEFFICIENT = 0.4f;
     private static float rotateValue = 0;
-    private final Item item;
+    private final ItemStack stack;
     private static final int ENTITY_SIZE = 30;
     private static final int SPACING = 12;
 
-    public ModelTooltipComponent(Item item, int color) {
+
+    public ModelViewerComponent(ItemStack stack, int color) {
         super(color);
-        this.item = item;
+        this.stack = stack;
     }
 
     @Override
-    public void drawBorder(DrawContext context, int x, int y, int width, int height, int z, int page) {
-        super.drawBorder(context, x, y, width, height, z, page);
+    public void render(DrawContext context, int x, int y, int width, int height, int z, int page) {
+        super.render(context, x, y, width, height, z, page);
         if (page != 0) {
             return;
         }
-        if (item instanceof ArmorItem armorItem) {
-            rotateValue+=ROTATE_COEFFICIENT;
-            if(rotateValue % 360 == 0){
+        if (stack.getItem() instanceof ArmorItem armorItem) {
+            rotateValue += ROTATE_COEFFICIENT;
+            if (rotateValue % 360 == 0) {
                 rotateValue = 0;
             }
             ArmorStandEntity entity = new ArmorStandEntity(EntityType.ARMOR_STAND, MinecraftClient.getInstance().world);
-            entity.equipStack(armorItem.getSlotType(), item.getDefaultStack());
+            entity.equipStack(armorItem.getSlotType(), stack);
             int offset = ENTITY_SIZE + SPACING - 10;
-            super.drawBorder(context, x - offset - 25, y, ENTITY_SIZE + 10, ENTITY_SIZE + 30 + 10, z, page);
+            super.render(context, x - offset - 25, y, ENTITY_SIZE + 10, ENTITY_SIZE + 30 + 10, z, -1);
             drawEntity(context, x - ENTITY_SIZE / 2 - SPACING - 10, y + ENTITY_SIZE + 30 + 5, ENTITY_SIZE, rotateValue, -45, entity);
         }
     }
-
 
     public static void drawEntity(DrawContext context, int x, int y, int size, float mouseX, float mouseY, LivingEntity entity) {
         float f = (float) Math.atan((double) (mouseX / 40.0F));
@@ -75,12 +76,13 @@ public class ModelTooltipComponent extends ColorTooltipBorderComponent {
 
         entityRenderDispatcher.setRenderShadows(false);
 //        RenderSystem.runAsFancy(() -> {
-            entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0F, 1.0F, context.getMatrices(), context.getVertexConsumers(), 15728880);
+        entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0F, 1.0F, context.getMatrices(), context.getVertexConsumers(), 15728880);
 //        });
         context.draw();
         entityRenderDispatcher.setRenderShadows(true);
         context.getMatrices().pop();
         DiffuseLighting.enableGuiDepthLighting();
     }
+
 
 }
