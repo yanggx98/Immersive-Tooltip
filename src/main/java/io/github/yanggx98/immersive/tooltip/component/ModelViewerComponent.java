@@ -21,7 +21,7 @@ public class ModelViewerComponent extends ColorBorderComponent {
     private static float rotateValue = 0;
     private final ItemStack stack;
     private static final int ENTITY_SIZE = 30;
-    private static final int SPACING = 12;
+    private static final int SPACING = 20;
 
 
     public ModelViewerComponent(ItemStack stack, int color) {
