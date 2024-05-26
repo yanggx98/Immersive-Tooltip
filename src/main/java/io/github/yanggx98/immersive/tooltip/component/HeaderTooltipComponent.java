@@ -1,48 +1,45 @@
 package io.github.yanggx98.immersive.tooltip.component;
 
-import io.github.yanggx98.kaleido.tooltip.components.KaleidoTooltipComponent;
+import io.github.yanggx98.immersive.tooltip.TooltipHelper;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.OrderedText;
+import net.minecraft.text.Text;
 import org.joml.Matrix4f;
 
-
-public class HeaderTooltipComponent extends KaleidoTooltipComponent {
+public class HeaderTooltipComponent extends BaseTooltipComponent {
     private static final int TEXTURE_SIZE = 24;
     private static final int ITEM_MODEL_SIZE = 16;
     private static final int SPACING = 4;
-    private Item item;
+    private final ItemStack stack;
     private final OrderedText nameText;
     private final OrderedText rarityName;
 
-    public HeaderTooltipComponent(Item item, OrderedText nameText, OrderedText rarityName) {
-        super(Padding.NONE);
-        this.item = item;
-        this.nameText = nameText;
-        this.rarityName = rarityName;
+
+    public HeaderTooltipComponent(ItemStack stack) {
+        this.stack = stack;
+        nameText = Text.empty().append(stack.getName()).formatted(stack.getRarity().getFormatting()).asOrderedText();
+        rarityName = TooltipHelper.createRarityMark(stack).asOrderedText();
     }
 
-
     @Override
-    public int getLineHeight() {
+    public int getHeight() {
         return TEXTURE_SIZE + 2;
     }
 
-
     @Override
-    public int getLineWidth(TextRenderer textRenderer) {
+    public int getWidth(TextRenderer textRenderer) {
         return Math.max(textRenderer.getWidth(nameText), textRenderer.getWidth(rarityName)) + SPACING + TEXTURE_SIZE;
     }
-
 
     public int getTitleOffset() {
         return SPACING + TEXTURE_SIZE;
     }
 
     @Override
-    public void drawTextInFrame(TextRenderer textRenderer, int x, int y, Matrix4f matrix, VertexConsumerProvider.Immediate vertexConsumers) {
+    public void drawText(TextRenderer textRenderer, int x, int y, Matrix4f matrix, VertexConsumerProvider.Immediate vertexConsumers) {
         float startDrawX = (float) x + getTitleOffset();
         float startDrawY = y;
         textRenderer.draw(nameText, startDrawX, startDrawY, -1, true, matrix, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 0xF000F0);
@@ -51,13 +48,13 @@ public class HeaderTooltipComponent extends KaleidoTooltipComponent {
     }
 
     @Override
-    public void drawItemInFrame(TextRenderer textRenderer, int x, int y, DrawContext context) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
         int startDrawX = x + (TEXTURE_SIZE - ITEM_MODEL_SIZE) / 2;
         int startDrawY = y + (TEXTURE_SIZE - ITEM_MODEL_SIZE) / 2;
 //        context.drawTexture(TooltipItemFrames.get(itemStack.getRarity()).texture, x, y, 0, 0, TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE);
 
         drawFrame(context, x, y + 1, TEXTURE_SIZE, TEXTURE_SIZE, 400, 0xffd6d6d6, 0xffd6d6d6);
-        context.drawItem(this.item.getDefaultStack(), startDrawX, startDrawY);
+        context.drawItem(this.stack, startDrawX, startDrawY);
     }
 
     private static void drawFrame(DrawContext context, int x, int y, int width, int height, int z, int startColor, int endColor) {
@@ -74,5 +71,4 @@ public class HeaderTooltipComponent extends KaleidoTooltipComponent {
     private static void renderHorizontalLine(DrawContext context, int x, int y, int width, int z, int color) {
         context.fill(x, y, x + width, y + 1, z, color);
     }
-
 }
