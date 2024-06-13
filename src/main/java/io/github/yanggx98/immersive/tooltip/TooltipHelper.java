@@ -42,7 +42,7 @@ public class TooltipHelper {
     public static Item asItem(Text text) {
         if (text.getContent() instanceof TranslatableTextContent content) {
             if (Objects.equals(content.getKey(), ITEM_MARK_KEY)) {
-                return Registries.ITEM.get(new Identifier(content.getArg(0).getString()));
+                return Registries.ITEM.get(Identifier.of(content.getArg(0).getString()));
             }
         }
         return null;

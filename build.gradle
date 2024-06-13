@@ -38,7 +38,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 //	modImplementation "maven.modrinth:kaleido:sK6CzI6u"
 //	modLocalRuntime "maven.modrinth:jei:NsbSea5x"
-	implementation name: 'kaleido-1.20.5-1.1.0-dev'
+	implementation name: 'kaleido-1.21-1.1.1-dev'
 }
 
 processResources {

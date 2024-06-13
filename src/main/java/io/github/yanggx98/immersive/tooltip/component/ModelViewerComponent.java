@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.item.AnimalArmorItem;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -36,6 +37,9 @@ public class ModelViewerComponent extends ColorBorderComponent {
             return;
         }
         if (stack.getItem() instanceof ArmorItem armorItem) {
+            if (armorItem instanceof AnimalArmorItem) {
+                return;
+            }
             rotateValue += ROTATE_COEFFICIENT;
             if (rotateValue % 360 == 0) {
                 rotateValue = 0;
