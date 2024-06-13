@@ -1,15 +1,19 @@
 package io.github.yanggx98.immersive.tooltip.component;
 
+import io.github.yanggx98.immersive.tooltip.mixin.EntityBucketItemMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.entity.Bucketable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.EntityBucketItem;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -45,6 +49,23 @@ public class ModelViewerComponent extends ColorBorderComponent {
             int offset = ENTITY_SIZE + SPACING - 10;
             super.render(context, x - offset - 25, y, ENTITY_SIZE + 10, ENTITY_SIZE + 30 + 10, z, -1);
             drawEntity(context, x - ENTITY_SIZE / 2 - SPACING - 10, y + ENTITY_SIZE + 30 + 5, ENTITY_SIZE, rotateValue, -45, entity);
+        } else if (stack.getItem() instanceof EntityBucketItem bucketItem) {
+
+            EntityType<?> entityType = ((EntityBucketItemMixin) bucketItem).getEntityType();
+            Entity entity = entityType.create(MinecraftClient.getInstance().world);
+            if (entity != null && entity instanceof AxolotlEntity axolotlEntity) {
+                if (entity instanceof Bucketable bucketable) {
+                    bucketable.copyDataFromNbt(stack.getOrCreateNbt());
+                    bucketable.setFromBucket(true);
+                }
+//                rotateValue += ROTATE_COEFFICIENT;
+//                if (rotateValue % 360 == 0) {
+//                    rotateValue = 0;
+//                }
+                int offset = ENTITY_SIZE + SPACING - 10;
+                super.render(context, x - offset - 25, y, ENTITY_SIZE + 10, ENTITY_SIZE + 10, z, -1);
+                drawEntity(context, x - ENTITY_SIZE / 2 - SPACING - 10, y + ENTITY_SIZE  +2, ENTITY_SIZE, 0, 0, axolotlEntity);
+            }
         }
     }
 

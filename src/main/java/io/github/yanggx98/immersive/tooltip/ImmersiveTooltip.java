@@ -14,6 +14,8 @@ import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.EntityBucketItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
@@ -42,15 +44,18 @@ public class ImmersiveTooltip implements ClientModInitializer {
             }
             if (itemStack.getItem() instanceof ArmorItem) {
                 list.add(new ModelViewerComponent(itemStack, 0xff000000 | color));
+            } else if (itemStack.getItem() instanceof EntityBucketItem) {
+                list.add(new ModelViewerComponent(itemStack, 0xff000000 | color));
             } else {
                 list.add(new ColorBorderComponent(0xff000000 | color));
             }
+
             // Special component
             FoodComponent foodComponent = itemStack.getItem().getFoodComponent();
-            if (foodComponent != null){
-                Text hungerText = Text.translatable(identifier("tooltip.hunger").toTranslationKey(),foodComponent.getHunger());
-                Text saturationText = Text.translatable(identifier("tooltip.saturation").toTranslationKey(),(int) (foodComponent.getSaturationModifier()*100))
-                        .setStyle(Style.EMPTY.withFormatting(Formatting.AQUA)) .setStyle(Style.EMPTY.withFormatting(Formatting.AQUA));
+            if (foodComponent != null) {
+                Text hungerText = Text.translatable(identifier("tooltip.hunger").toTranslationKey(), foodComponent.getHunger());
+                Text saturationText = Text.translatable(identifier("tooltip.saturation").toTranslationKey(), (int) (foodComponent.getSaturationModifier() * 100))
+                        .setStyle(Style.EMPTY.withFormatting(Formatting.AQUA)).setStyle(Style.EMPTY.withFormatting(Formatting.AQUA));
 
                 list.add(TooltipComponent.of(hungerText.asOrderedText()));
                 list.add(TooltipComponent.of(saturationText.asOrderedText()));
@@ -58,12 +63,12 @@ public class ImmersiveTooltip implements ClientModInitializer {
                     int c = statusEffect.getFirst().getEffectType().getColor();
                     Text effectText = Text.empty().append("◈ ").append(Text.translatable(
                                     statusEffect.getFirst().getTranslationKey()))
-                            .append("(").append(StatusEffectUtil.getDurationText(statusEffect.getFirst(),1.0f)).append(")")
+                            .append("(").append(StatusEffectUtil.getDurationText(statusEffect.getFirst(), 1.0f)).append(")")
                             .setStyle(Style.EMPTY.withColor(c));
                     list.add(TooltipComponent.of(effectText.asOrderedText()));
                 }
             }
-            if (itemStack.isDamageable()){
+            if (itemStack.isDamageable()) {
                 Text durabilityText = Text.translatable("item.durability",
                         itemStack.getMaxDamage() - itemStack.getDamage(), itemStack.getMaxDamage());
                 list.add(TooltipComponent.of(durabilityText.asOrderedText()));
