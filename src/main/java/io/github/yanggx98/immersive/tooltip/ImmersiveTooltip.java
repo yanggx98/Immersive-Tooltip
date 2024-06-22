@@ -38,10 +38,7 @@ public class ImmersiveTooltip implements ClientModInitializer {
             list.remove(0);
             list.add(0, new HeaderTooltipComponent(itemStack));
             // Background component
-            Integer color = itemStack.getRarity().formatting.getColorValue();
-            if (color == null) {
-                color = 0xffffffff;
-            }
+            int color = TooltipHelper.borderColorProvider.getItemBorderColor(itemStack);
             if (itemStack.getItem() instanceof ArmorItem) {
                 list.add(new ModelViewerComponent(itemStack, 0xff000000 | color));
             } else if (itemStack.getItem() instanceof EntityBucketItem) {
@@ -73,6 +70,7 @@ public class ImmersiveTooltip implements ClientModInitializer {
                         itemStack.getMaxDamage() - itemStack.getDamage(), itemStack.getMaxDamage());
                 list.add(TooltipComponent.of(durabilityText.asOrderedText()));
             }
+
         });
         TooltipDrawerProvider.setTooltipDrawerProvider(new ImmersiveTooltipDrawer());
     }
