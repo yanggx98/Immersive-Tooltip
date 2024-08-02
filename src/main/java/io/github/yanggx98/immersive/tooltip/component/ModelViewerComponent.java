@@ -1,5 +1,6 @@
 package io.github.yanggx98.immersive.tooltip.component;
 
+import io.github.yanggx98.immersive.tooltip.ImmersiveTooltip;
 import io.github.yanggx98.immersive.tooltip.mixin.EntityBucketItemMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -36,7 +37,7 @@ public class ModelViewerComponent extends ColorBorderComponent {
     @Override
     public void render(DrawContext context, int x, int y, int width, int height, int z, int page) {
         super.render(context, x, y, width, height, z, page);
-        if (page != 0) {
+        if (page != 0 || !ImmersiveTooltip.isRenderingArmorModel) {
             return;
         }
         if (stack.getItem() instanceof ArmorItem armorItem) {
