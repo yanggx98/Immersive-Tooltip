@@ -51,22 +51,22 @@ public class ModelViewerComponent extends ColorBorderComponent {
             super.render(context, x - offset - 25, y, ENTITY_SIZE + 10, ENTITY_SIZE + 30 + 10, z, -1);
             drawEntity(context, x - ENTITY_SIZE / 2 - SPACING - 10, y + ENTITY_SIZE + 30 + 5, ENTITY_SIZE, rotateValue, -45, entity);
         } else if (stack.getItem() instanceof EntityBucketItem bucketItem) {
-
-            EntityType<?> entityType = ((EntityBucketItemMixin) bucketItem).getEntityType();
-            Entity entity = entityType.create(MinecraftClient.getInstance().world);
-            if (entity != null && entity instanceof AxolotlEntity axolotlEntity) {
-                if (entity instanceof Bucketable bucketable) {
-                    bucketable.copyDataFromNbt(stack.getOrCreateNbt());
-                    bucketable.setFromBucket(true);
-                }
+//
+//            EntityType<?> entityType = ((EntityBucketItemMixin) bucketItem).getEntityType();
+//            Entity entity = entityType.create(MinecraftClient.getInstance().world);
+//            if (entity != null && entity instanceof AxolotlEntity axolotlEntity) {
+//                if (entity instanceof Bucketable bucketable) {
+//                    bucketable.copyDataFromNbt(stack.getOrCreateNbt());
+//                    bucketable.setFromBucket(true);
+//                }
 //                rotateValue += ROTATE_COEFFICIENT;
 //                if (rotateValue % 360 == 0) {
 //                    rotateValue = 0;
 //                }
-                int offset = ENTITY_SIZE + SPACING - 10;
-                super.render(context, x - offset - 25, y, ENTITY_SIZE + 10, ENTITY_SIZE + 10, z, -1);
-                drawEntity(context, x - ENTITY_SIZE / 2 - SPACING - 10, y + ENTITY_SIZE  +2, ENTITY_SIZE, 0, 0, axolotlEntity);
-            }
+//                int offset = ENTITY_SIZE + SPACING - 10;
+//                super.render(context, x - offset - 25, y, ENTITY_SIZE + 10, ENTITY_SIZE + 10, z, -1);
+//                drawEntity(context, x - ENTITY_SIZE / 2 - SPACING - 10, y + ENTITY_SIZE  +2, ENTITY_SIZE, 0, 0, axolotlEntity);
+//            }
         }
     }
 
