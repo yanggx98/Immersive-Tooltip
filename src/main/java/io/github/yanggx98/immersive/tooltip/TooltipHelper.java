@@ -3,10 +3,16 @@ package io.github.yanggx98.immersive.tooltip;
 import io.github.yanggx98.immersive.tooltip.api.ItemBorderColorProvider;
 import io.github.yanggx98.immersive.tooltip.api.ItemDisplayNameProvider;
 import io.github.yanggx98.immersive.tooltip.api.ItemRarityNameProvider;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
+
+import java.util.Optional;
 
 import static io.github.yanggx98.immersive.tooltip.ImmersiveTooltip.MOD_ID;
 
@@ -38,6 +44,7 @@ public class TooltipHelper {
             displayNameProvider = provider;
         }
     }
+
     public static void setBorderColorProvider(ItemBorderColorProvider provider) {
         if (provider != null) {
             borderColorProvider = provider;
@@ -64,6 +71,14 @@ public class TooltipHelper {
     private static class DefaultItemBorderColorProvider implements ItemBorderColorProvider {
         @Override
         public int getItemBorderColor(ItemStack itemStack) {
+            Optional<RegistryKey<Item>> optional = itemStack.getRegistryEntry().getKey();
+            if (optional.isPresent()) {
+                String key = optional.get().getValue().toString();
+                Integer value = BorderColorLoader.INSTANCE.getBorderColorMap().get(key);
+                if (value != null) {
+                    return value;
+                }
+            }
             Integer color = itemStack.getRarity().formatting.getColorValue();
             if (color == null) {
                 color = 0xffffffff;

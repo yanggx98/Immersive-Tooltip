@@ -12,12 +12,14 @@ import io.github.yanggx98.kaleido.render.tooltip.api.TooltipComponentAPI;
 import io.github.yanggx98.kaleido.render.tooltip.api.TooltipDrawerProvider;
 import net.fabricmc.api.ClientModInitializer;
 
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.EntityBucketItem;
 import net.minecraft.item.FoodComponent;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -86,7 +88,8 @@ public class ImmersiveTooltip implements ClientModInitializer {
 
 
 
-
+        ResourceManagerHelper resourceManagerHelper = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
+        resourceManagerHelper.registerReloadListener(BorderColorLoader.INSTANCE);
 
 
     }
