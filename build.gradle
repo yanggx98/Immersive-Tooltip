@@ -43,9 +43,6 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "maven.modrinth:kaleido:sK6CzI6u"
-	modImplementation "maven.modrinth:ZS3lIxKu:7o31lWj2"
-	modImplementation "maven.modrinth:modmenu:eTCL1uh8"
-	modImplementation "maven.modrinth:cloth-config:J3FLptsi"
 	modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
 	modLocalRuntime "maven.modrinth:jei:NsbSea5x"
 //	implementation name: 'kaleido-1.1.0-dev'
