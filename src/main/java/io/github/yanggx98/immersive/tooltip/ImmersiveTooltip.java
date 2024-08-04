@@ -82,13 +82,18 @@ public class ImmersiveTooltip implements ClientModInitializer {
         resourceManagerHelper.registerReloadListener(BorderColorLoader.INSTANCE);
 
         try {
-            Toml toml = ConfigUtils.initConfiguration(MOD_ID + "_client", (file,t) -> {
+            Toml toml = ConfigUtils.initConfiguration(MOD_ID + "-client", (file,t) -> {
                 Map<String,Boolean> map = new HashMap<>();
                 map.put("enableRenderingArmorModel",true);
                 String configStr =  Toml.serialize("Rendering",map);
                 ConfigUtils.write(file,configStr);
             });
-            isRenderingArmorModel = (Boolean) toml.getMap("Rendering").getOrDefault("enableRenderingArmorModel",true);
+            Map<String, Object> options = toml.getMap("Rendering");
+            if (options != null) {
+                isRenderingArmorModel = (Boolean) options.getOrDefault("enableRenderingArmorModel", true);
+            }else{
+                isRenderingArmorModel = true;
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

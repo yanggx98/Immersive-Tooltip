@@ -46,8 +46,8 @@ dependencies {
 	modLocalRuntime "maven.modrinth:jei:NsbSea5x"
 //	implementation name: 'kaleido-1.1.0-dev'
 
-	implementation 'me.grison:jtoml:1.0.0'
-
+	implementation  'me.grison:jtoml:1.0.0'
+	include 'me.grison:jtoml:1.0.0'
 }
 
 processResources {
