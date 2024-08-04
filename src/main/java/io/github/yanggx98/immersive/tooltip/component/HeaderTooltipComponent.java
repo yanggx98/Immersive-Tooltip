@@ -6,7 +6,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.OrderedText;
-import net.minecraft.text.Text;
 import org.joml.Matrix4f;
 
 public class HeaderTooltipComponent extends BaseTooltipComponent {
@@ -20,8 +19,8 @@ public class HeaderTooltipComponent extends BaseTooltipComponent {
 
     public HeaderTooltipComponent(ItemStack stack) {
         this.stack = stack;
-        nameText = Text.empty().append(stack.getName()).formatted(stack.getRarity().getFormatting()).asOrderedText();
-        rarityName = TooltipHelper.createRarityMark(stack).asOrderedText();
+        nameText = TooltipHelper.getDisplayName(stack).asOrderedText();
+        rarityName = TooltipHelper.getRarityName(stack).asOrderedText();
     }
 
     @Override

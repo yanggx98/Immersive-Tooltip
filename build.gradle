@@ -36,9 +36,11 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-//	modImplementation "maven.modrinth:kaleido:sK6CzI6u"
+	modImplementation "maven.modrinth:kaleido:P3gojOFf"
 //	modLocalRuntime "maven.modrinth:jei:NsbSea5x"
-	implementation name: 'kaleido-1.21-1.1.1-dev'
+//	implementation name: 'kaleido-1.1.0-dev'
+	implementation  'me.grison:jtoml:1.0.0'
+	include 'me.grison:jtoml:1.0.0'
 }
 
 processResources {
