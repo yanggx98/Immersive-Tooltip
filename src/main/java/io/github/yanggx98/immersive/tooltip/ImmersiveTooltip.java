@@ -1,15 +1,15 @@
 package io.github.yanggx98.immersive.tooltip;
 
 import com.mojang.datafixers.util.Pair;
-import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import io.github.yanggx98.immersive.tooltip.component.BaseTooltipComponent;
 import io.github.yanggx98.immersive.tooltip.component.ColorBorderComponent;
 import io.github.yanggx98.immersive.tooltip.component.HeaderTooltipComponent;
 import io.github.yanggx98.immersive.tooltip.component.ModelViewerComponent;
+import io.github.yanggx98.immersive.tooltip.config.ConfigUtils;
 import io.github.yanggx98.kaleido.render.tooltip.api.TooltipComparatorProvider;
 import io.github.yanggx98.kaleido.render.tooltip.api.TooltipComponentAPI;
 import io.github.yanggx98.kaleido.render.tooltip.api.TooltipDrawerProvider;
+import me.grison.jtoml.impl.Toml;
 import net.fabricmc.api.ClientModInitializer;
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -25,24 +25,16 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
+import java.io.File;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ImmersiveTooltip implements ClientModInitializer {
 
     public static final String MOD_ID = "immersive-tooltip";
-
     public static boolean isRenderingArmorModel = true;
-    public static Option<Boolean> option = Option.<Boolean>createBuilder() // boolean is the type of option we'll be making
-            .name(Text.of("Enable Rendering Armor Model"))
-            .description(OptionDescription.of(Text.of("This option if is false will disable rendering the armor model.")))
-            .binding(
-                    true, // the default value
-                    () -> isRenderingArmorModel, // a getter to get the current value from
-                    newVal -> isRenderingArmorModel = newVal
-            )
-            .controller(TickBoxControllerBuilder::create)
-            .build();
     @Override
     public void onInitializeClient() {
         TooltipComparatorProvider.setComparator(Comparator.comparingInt(ImmersiveTooltip::getSerialNumber));
@@ -86,12 +78,20 @@ public class ImmersiveTooltip implements ClientModInitializer {
         });
         TooltipDrawerProvider.setTooltipDrawerProvider(new ImmersiveTooltipDrawer());
 
-
-
         ResourceManagerHelper resourceManagerHelper = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
         resourceManagerHelper.registerReloadListener(BorderColorLoader.INSTANCE);
 
-
+        try {
+            Toml toml = ConfigUtils.initConfiguration(MOD_ID + "_client", (file,t) -> {
+                Map<String,Boolean> map = new HashMap<>();
+                map.put("enableRenderingArmorModel",true);
+                String configStr =  Toml.serialize("Rendering",map);
+                ConfigUtils.write(file,configStr);
+            });
+            isRenderingArmorModel = (Boolean) toml.getMap("Rendering").getOrDefault("enableRenderingArmorModel",true);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Identifier identifier(String path) {

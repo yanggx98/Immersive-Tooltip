@@ -15,9 +15,6 @@
 	"entrypoints": {
 		"client": [
 			"io.github.yanggx98.immersive.tooltip.ImmersiveTooltip"
-		],
-		"modmenu": [
-			"io.github.yanggx98.immersive.tooltip.ModMenuIntegration"
 		]
 	},
 	"mixins": [
@@ -28,8 +25,7 @@
 		"minecraft": "~1.20.1",
 		"java": ">=17",
 		"fabric-api": "*",
-		"kaleido": ">=1.20.1-1.1",
-		"yet_another_config_lib_v3": ">=3.5.0+1.20.1-fabric"
+		"kaleido": ">=1.20.1-1.1"
 	},
 	"suggests": {
 		"another-mod": "*"
